@@ -1,0 +1,39 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+  width: 80%;          /* or any fixed width like 600px */
+  margin: 0 auto;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 100px);
+    gap: 0;
+}
+
+.cell {
+    margin: 0;
+    padding: 0;
+
+    font-size: 100px;
+
+    background-color: beige;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}

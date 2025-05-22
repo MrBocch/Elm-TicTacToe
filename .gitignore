@@ -1,2 +1,9 @@
 .DS_Store
 elm-stuff/
+
+*.js
+# i want to ignore the js file
+# for know,
+# deploy on github pages, you cant ignore the file
+# deploy somewhere it else, you can ignore the js file
+# you only have to migrate the files to the hosting service neocities?
