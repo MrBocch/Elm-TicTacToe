@@ -31,14 +31,16 @@ type alias Model =
     { s1 : State, s2 : State, s3 : State
     , s4 : State, s5 : State, s6 : State
     , s7 : State, s8 : State, s9 : State
-    , turn : Int }
+    , turn : Int
+    , winner : Bool }
 
 initialModel : Model
 initialModel =
     { s1 = Nothing, s2 = Nothing, s3 = Nothing
     , s4 = Nothing, s5 = Nothing, s6 = Nothing
     , s7 = Nothing, s8 = Nothing, s9 = Nothing
-    , turn = 0}
+    , turn = 0
+    , winner = False }
 
 view : Model -> Html Msg
 view model =
@@ -46,6 +48,7 @@ view model =
         [
           h1 [] [ text "TicTacToe" ]
         , board model
+        , winnerBanner (getWinner model)
         ]
 
 board : Model -> Html Msg
@@ -68,6 +71,18 @@ board model =
         , cell m.s9 9
         ]
 
+winnerBanner : String -> Html Msg
+winnerBanner winner =
+    let
+        banner = if winner /= "" then text ("Congratulations " ++ winner) else text ""
+    in
+        h2 [ class "banner" ] [ banner ]
+
+getWinner : Model -> String
+getWinner model =
+    if model.winner == True then
+        if modBy 2 model.turn == 1 then "X" else "O"
+        else ""
 
 cell : State -> Int -> Html Msg
 cell state sn =
@@ -101,42 +116,45 @@ update msg model =
     let
         t = if modBy 2 model.turn == 0 then X else O
     in
+    if model.winner then
+        model
+    else
     case msg of
         ToggleS1 ->
             if checksOccupied model 1 then
-                { model | s1 = t } |> nextTurn
+                { model | s1 = t } |> goNext
             else model
         ToggleS2 ->
             if checksOccupied model 2 then
-                { model | s2 = t } |> nextTurn
+                { model | s2 = t } |> goNext
             else model
         ToggleS3 ->
             if checksOccupied model 3 then
-                { model | s3 = t } |> nextTurn
+                { model | s3 = t } |> goNext
             else model
         ToggleS4 ->
             if checksOccupied model 4 then
-                { model | s4 = t } |> nextTurn
+                { model | s4 = t } |> goNext
             else model
         ToggleS5 ->
             if checksOccupied model 5 then
-                { model | s5 = t } |> nextTurn
+                { model | s5 = t } |> goNext
             else model
         ToggleS6 ->
             if checksOccupied model 6 then
-                { model | s6 = t } |> nextTurn
+                { model | s6 = t } |> goNext
             else model
         ToggleS7 ->
             if checksOccupied model 7 then
-                { model | s7 = t } |> nextTurn
+                { model | s7 = t } |> goNext
             else model
         ToggleS8 ->
             if checksOccupied model 8 then
-                { model | s8 = t } |> nextTurn
+                { model | s8 = t } |> goNext
             else model
         ToggleS9 ->
             if checksOccupied model 9 then
-                { model | s9 = t } |> nextTurn
+                { model | s9 = t } |> goNext
             else model
 
 
@@ -155,6 +173,36 @@ checksOccupied model n =
         9 -> model.s9 == Nothing
         _ -> False -- never reaches
 
+goNext : Model -> Model
+goNext model =
+    model |> nextTurn |> checkWinner
+
 nextTurn : Model -> Model
 nextTurn model =
     { model | turn = model.turn + 1}
+
+checkWinner : Model -> Model
+checkWinner model =
+    let
+        m = model
+    in
+    -- rows
+    if List.all (\s -> s == X) [m.s1, m.s2, m.s3]
+    || List.all (\s -> s == O) [m.s1, m.s2, m.s3]
+    || List.all (\s -> s == X) [m.s4, m.s5, m.s6]
+    || List.all (\s -> s == O) [m.s4, m.s5, m.s6]
+    || List.all (\s -> s == X) [m.s7, m.s8, m.s9]
+    || List.all (\s -> s == O) [m.s7, m.s8, m.s9]
+    -- now columns
+    || List.all (\s -> s == X) [m.s1, m.s4, m.s7]
+    || List.all (\s -> s == O) [m.s1, m.s4, m.s7]
+    || List.all (\s -> s == X) [m.s2, m.s5, m.s8]
+    || List.all (\s -> s == O) [m.s2, m.s5, m.s8]
+    || List.all (\s -> s == X) [m.s3, m.s6, m.s9]
+    || List.all (\s -> s == O) [m.s3, m.s6, m.s9]
+    -- diag
+    || List.all (\s -> s == X) [m.s1, m.s5, m.s9]
+    || List.all (\s -> s == O) [m.s1, m.s5, m.s9]
+    || List.all (\s -> s == X) [m.s7, m.s5, m.s3]
+    || List.all (\s -> s == O) [m.s7, m.s5, m.s3]
+    then { model | winner = True } else model
