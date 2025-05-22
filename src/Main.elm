@@ -58,17 +58,17 @@ board model =
     in
     div [ class "board" ]
         [
-          cell m.s1 1
-        , cell m.s2 2
-        , cell m.s3 3
+          cell "top-left"  m.s1 1
+        , cell "top-mid"   m.s2 2
+        , cell "top-right" m.s3 3
 
-        , cell m.s4 4
-        , cell m.s5 5
-        , cell m.s6 6
+        , cell "mid-left"  m.s4 4
+        , cell "mid-mid"   m.s5 5
+        , cell "mid-right" m.s6 6
 
-        , cell m.s7 7
-        , cell m.s8 8
-        , cell m.s9 9
+        , cell "bot-left"  m.s7 7
+        , cell "bot-mid"   m.s8 8
+        , cell "bot-right" m.s9 9
         ]
 
 winnerBanner : String -> Html Msg
@@ -82,10 +82,10 @@ getWinner : Model -> String
 getWinner model =
     if model.winner == True then
         if modBy 2 model.turn == 1 then "X" else "O"
-        else ""
+    else ""
 
-cell : State -> Int -> Html Msg
-cell state sn =
+cell : String -> State -> Int -> Html Msg
+cell cssClass state sn =
     let
         stateText =
             case state of
@@ -106,7 +106,7 @@ cell state sn =
                 _ -> ToggleS1 -- this will never reach
 
     in
-    div [ class "cell", onClick sig ]
+    div [ class "cell", class cssClass, onClick sig ]
         [
           text stateText
         ]

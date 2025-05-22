@@ -37,3 +37,56 @@ div {
     -moz-user-select: none;
     -ms-user-select: none;
 }
+
+.top-left {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.top-mid {
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.top-right {
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+
+
+.mid-left {
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.mid-mid {
+    border: 2px solid black;
+}
+
+.mid-right {
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+
+
+.bot-left {
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.bot-mid {
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+
+}
+
+.bot-right {
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+}
