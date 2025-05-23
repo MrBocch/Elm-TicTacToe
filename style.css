@@ -4,8 +4,10 @@
 }
 
 body {
-  width: 80%;          /* or any fixed width like 600px */
-  margin: 0 auto;
+    width: 80%;          /* or any fixed width like 600px */
+    margin: 0 auto;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 div {
@@ -14,6 +16,8 @@ div {
 }
 
 .board {
+    font-family: 'Courier New', Courier, monospace;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 100px);

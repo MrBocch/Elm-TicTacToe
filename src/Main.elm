@@ -74,7 +74,7 @@ board model =
 winnerBanner : String -> Html Msg
 winnerBanner winner =
     let
-        banner = if winner /= "" then text ("Congratulations " ++ winner) else text ""
+        banner = if winner /= "" then text ("Congratulations " ++ winner ++ " player!") else text ""
     in
         h2 [ class "banner" ] [ banner ]
 
