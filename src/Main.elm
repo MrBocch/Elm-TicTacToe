@@ -52,7 +52,7 @@ view model =
           h1 [] [ text "TicTacToe" ]
         , board model
         , winnerBanner (getWinner model)
-        , playAgain
+        , if drawOrWin model then playAgain else text ""
         -- , if drawOrWin model then playAgain model else nada
         ]
 
@@ -79,7 +79,7 @@ board model =
 winnerBanner : String -> Html Msg
 winnerBanner winner =
     let
-        banner = if winner /= "" then text ("Congratulations " ++ winner ++ " player!") else nada
+        banner = if winner /= "" then text ("Congratulations " ++ winner ++ " player!") else text ""
     in
         h2 [ class "banner" ] [ banner ]
 
@@ -133,44 +133,41 @@ update msg model =
     let
         t = if modBy 2 model.turn == 0 then X else O
     in
-    if model.winner then
-        model
-    else
     case msg of
         ToggleS1 ->
-            if checksOccupied model 1 then
+            if checksOccupied model 1 && not model.winner then
                 { model | s1 = t } |> goNext
             else model
         ToggleS2 ->
-            if checksOccupied model 2 then
+            if checksOccupied model 2 && not model.winner then
                 { model | s2 = t } |> goNext
             else model
         ToggleS3 ->
-            if checksOccupied model 3 then
+            if checksOccupied model 3 && not model.winner then
                 { model | s3 = t } |> goNext
             else model
         ToggleS4 ->
-            if checksOccupied model 4 then
+            if checksOccupied model 4 && not model.winner then
                 { model | s4 = t } |> goNext
             else model
         ToggleS5 ->
-            if checksOccupied model 5 then
+            if checksOccupied model 5 && not model.winner then
                 { model | s5 = t } |> goNext
             else model
         ToggleS6 ->
-            if checksOccupied model 6 then
+            if checksOccupied model 6 && not model.winner then
                 { model | s6 = t } |> goNext
             else model
         ToggleS7 ->
-            if checksOccupied model 7 then
+            if checksOccupied model 7 && not model.winner then
                 { model | s7 = t } |> goNext
             else model
         ToggleS8 ->
-            if checksOccupied model 8 then
+            if checksOccupied model 8 && not model.winner then
                 { model | s8 = t } |> goNext
             else model
         ToggleS9 ->
-            if checksOccupied model 9 then
+            if checksOccupied model 9 && not model.winner then
                 { model | s9 = t } |> goNext
             else model
         PlayAgain ->
