@@ -26,6 +26,7 @@ type Msg -- this is so ugly
     | ToggleS7
     | ToggleS8
     | ToggleS9
+    | PlayAgain
 
 type alias Model =
     { s1 : State, s2 : State, s3 : State
@@ -42,6 +43,8 @@ initialModel =
     , turn = 0
     , winner = False }
 
+-- VIEW
+
 view : Model -> Html Msg
 view model =
     div []
@@ -49,6 +52,7 @@ view model =
           h1 [] [ text "TicTacToe" ]
         , board model
         , winnerBanner (getWinner model)
+        , if drawOrWin model then playAgain model else Html.text ""
         ]
 
 board : Model -> Html Msg
@@ -84,6 +88,16 @@ getWinner model =
         if modBy 2 model.turn == 1 then "X" else "O"
     else ""
 
+playAgain : Model -> Html Msg
+playAgain model =
+    div [ class "play-again", onClick PlayAgain ]
+        [
+          p [ onClick PlayAgain ] [ text "Play Again?" ]
+        ]
+
+nada : Model -> Html Msg
+nada model = div [] []
+
 cell : String -> State -> Int -> Html Msg
 cell cssClass state sn =
     let
@@ -110,6 +124,8 @@ cell cssClass state sn =
         [
           text stateText
         ]
+
+-- UPDATE
 
 update : Msg -> Model -> Model
 update msg model =
@@ -156,7 +172,8 @@ update msg model =
             if checksOccupied model 9 then
                 { model | s9 = t } |> goNext
             else model
-
+        PlayAgain ->
+            initialModel
 
 
 checksOccupied : Model -> Int -> Bool
@@ -206,3 +223,13 @@ checkWinner model =
     || List.all (\s -> s == X) [m.s7, m.s5, m.s3]
     || List.all (\s -> s == O) [m.s7, m.s5, m.s3]
     then { model | winner = True } else model
+
+drawOrWin : Model -> Bool
+drawOrWin model =
+    let
+        m = model
+    in
+    if m.winner == True then True
+    else
+    if List.all (\c -> c /= Nothing) [m.s1, m.s2, m.s3, m.s4, m.s5, m.s6, m.s7, m.s8, m.s9]
+        then True else False
