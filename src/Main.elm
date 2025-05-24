@@ -52,7 +52,8 @@ view model =
           h1 [] [ text "TicTacToe" ]
         , board model
         , winnerBanner (getWinner model)
-        , if drawOrWin model then playAgain model else Html.text ""
+        , playAgain
+        -- , if drawOrWin model then playAgain model else nada
         ]
 
 board : Model -> Html Msg
@@ -78,7 +79,7 @@ board model =
 winnerBanner : String -> Html Msg
 winnerBanner winner =
     let
-        banner = if winner /= "" then text ("Congratulations " ++ winner ++ " player!") else text ""
+        banner = if winner /= "" then text ("Congratulations " ++ winner ++ " player!") else nada
     in
         h2 [ class "banner" ] [ banner ]
 
@@ -88,15 +89,15 @@ getWinner model =
         if modBy 2 model.turn == 1 then "X" else "O"
     else ""
 
-playAgain : Model -> Html Msg
-playAgain model =
+playAgain : Html Msg
+playAgain =
     div [ class "play-again", onClick PlayAgain ]
         [
           p [ onClick PlayAgain ] [ text "Play Again?" ]
         ]
 
-nada : Model -> Html Msg
-nada model = div [] []
+nada : Html Msg
+nada = div [] []
 
 cell : String -> State -> Int -> Html Msg
 cell cssClass state sn =
