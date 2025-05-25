@@ -1,7 +1,7 @@
 .DS_Store
 elm-stuff/
 
-*.js
+# *.js
 # i want to ignore the js file
 # for know,
 # deploy on github pages, you cant ignore the file
