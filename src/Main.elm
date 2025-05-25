@@ -93,7 +93,7 @@ playAgain : Html Msg
 playAgain =
     div [ class "play-again", onClick PlayAgain ]
         [
-          p [ onClick PlayAgain ] [ text "Play Again?" ]
+          h2 [ onClick PlayAgain ] [ text "Play Again?" ]
         ]
 
 nada : Html Msg
